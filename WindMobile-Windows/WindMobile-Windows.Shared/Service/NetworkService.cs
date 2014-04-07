@@ -1,0 +1,119 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Ch.Tallichet.WindMobile.Service
+{
+    public class NetworkService
+    {
+        private Uri BacklogManApiBaseUri = new Uri("http://rtwind.mobi/api/2/");
+        private HttpClient client;
+        
+        
+        public Task<List<Ch.Tallichet.WindMobile.Model.Station>> ListStations(int limit = 100)
+        {
+            var uri = new Uri(BacklogManApiBaseUri, "stations/?limit=" + limit);
+            return DownloadDocument<List<Ch.Tallichet.WindMobile.Model.Station>>(uri);
+        }
+
+        public Task<List<Ch.Tallichet.WindMobile.Model.Station>> SearchStations(string searchCriteria)
+        {
+            var uri = new Uri(BacklogManApiBaseUri, "stations/?search=" + searchCriteria);
+            return DownloadDocument<List<Ch.Tallichet.WindMobile.Model.Station>>(uri);
+        }
+
+        public Task<List<Ch.Tallichet.WindMobile.Model.Station>> GeoSearchStations(Model.Location location, long distanceInMeters)
+        {
+            var uri = new Uri(BacklogManApiBaseUri, string.Format("stations/?lat={0}&lon={1}&distance={2}",
+                location.Latitude.ToString(CultureInfo.InvariantCulture),
+                location.Longitude.ToString(CultureInfo.InvariantCulture), 
+                distanceInMeters));
+            return DownloadDocument<List<Ch.Tallichet.WindMobile.Model.Station>>(uri);
+        }
+        public async Task<List<Ch.Tallichet.WindMobile.Model.Station>> TextSearchStations(string searchCriteria)
+        {
+            var uri = new Uri(BacklogManApiBaseUri, "stations/?word=" + searchCriteria);
+            return (await DownloadDocument<List<Ch.Tallichet.WindMobile.Model.TextSearchResult>>(uri)).Select(r => r.Station).ToList();
+        }
+
+        public Task<Ch.Tallichet.WindMobile.Model.Station> GetStation(string stationId)
+        {
+            var uri = new Uri(BacklogManApiBaseUri, "stations/" + stationId + "/");
+            return DownloadDocument<Ch.Tallichet.WindMobile.Model.Station>(uri);
+        }
+
+        public Task<List<Ch.Tallichet.WindMobile.Model.StationData>> GetStationData(string stationId, TimeSpan duration)
+        {
+            var uri = new Uri(BacklogManApiBaseUri, "stations/" + stationId + "/historic/?duration=" + (long)duration.TotalSeconds);
+            return DownloadDocument<List<Ch.Tallichet.WindMobile.Model.StationData>>(uri);
+        }
+
+        #region Network methods
+        protected HttpClient Client
+        {
+            get
+            {
+                if (client == null)
+                {
+                    client = new HttpClient();
+                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));                    
+                }
+                return client;
+            }
+        }
+
+        private async Task<T> DownloadDocument<T>(Uri url)
+        {
+            var s = await Client.GetStringAsync(url);
+            return Helper.Deserialize<T>(s);
+        }
+
+        private async Task<R> PostOrPutData<T, R>(Uri uri, T objectToSend, bool post = true)
+        {
+            var content = new StringContent(
+                Helper.Serialize<T>(objectToSend),
+                Encoding.UTF8,
+                "application/json");
+
+            HttpResponseMessage response;
+
+            if (post)
+            {
+                response = await Client.PostAsync(uri, content);
+            }
+            else
+            {
+                response = await Client.PutAsync(uri, content);
+            }
+
+            if (response.IsSuccessStatusCode == false)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                throw new Exception("Unknwon error");
+            }
+
+            var json = await response.Content.ReadAsStringAsync();
+            return Helper.Deserialize<R>(json);
+        }
+
+        private async Task Delete(Uri uri)
+        {
+            var request = new HttpRequestMessage(HttpMethod.Delete, uri);
+
+            var response = await Client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode == false)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+                throw new Exception("Unknwon error");
+            }
+        }
+
+
+        #endregion
+    }
+}
