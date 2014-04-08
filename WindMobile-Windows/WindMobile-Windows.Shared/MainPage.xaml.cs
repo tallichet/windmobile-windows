@@ -15,13 +15,21 @@ using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
-namespace WindMobile_Windows
+namespace Ch.Tallichet.WindMobile
 {
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private Viewmodel.IMainViewModel viewmodel
+        {
+            get
+            {
+                return this.DataContext as Viewmodel.IMainViewModel;
+            }
+        }
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -43,6 +51,15 @@ namespace WindMobile_Windows
             // Windows.Phone.UI.Input.HardwareButtons.BackPressed event.
             // If you are using the NavigationHelper provided by some templates,
             // this event is handled for you.
+        }
+
+        private void GridView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            if (e.ClickedItem is Model.Station)
+            {
+                viewmodel.CurrentStation = e.ClickedItem as Model.Station;
+                mainHub.ScrollToSection(mainHub.Sections.First());
+            }
         }
     }
 }

@@ -33,7 +33,7 @@ namespace Ch.Tallichet.WindMobile.Viewmodel.Design
             {
                 WindAverage = 25,
                 WindMax = 150,
-                WindMin = new double?[] {5d},
+                WindMin = 5d,
                 Temperature = 3,
                 WindDirection = 30
             });

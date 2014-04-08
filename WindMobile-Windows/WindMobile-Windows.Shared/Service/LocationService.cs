@@ -15,8 +15,8 @@ namespace Ch.Tallichet.WindMobile.Service
             var pos = await locator.GetGeopositionAsync();
             return new Model.Location()
             {
-                Latitude = pos.Coordinate.Latitude,
-                Longitude = pos.Coordinate.Longitude,
+                Latitude = pos.Coordinate.Point.Position.Latitude,
+                Longitude = pos.Coordinate.Point.Position.Longitude,
             };
         }
     }

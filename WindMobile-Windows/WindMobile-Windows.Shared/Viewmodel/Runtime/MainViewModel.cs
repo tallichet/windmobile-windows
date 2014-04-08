@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Resources;
+using Windows.UI.Popups;
 
 namespace Ch.Tallichet.WindMobile.Viewmodel.Runtime
 {
@@ -97,14 +99,25 @@ namespace Ch.Tallichet.WindMobile.Viewmodel.Runtime
         {
             CloseStations.Clear();
             CurrentStation = null;
-            var stations = await ServiceLocator.Current.GetInstance<Service.NetworkService>().GeoSearchStations(currentLocation, distanceInMetersForGetSearch);
-            foreach (var station in stations.Where(s => s.IsValid))
+            try
             {
-                CloseStations.Add(station);
-                if (CurrentStation == null)
+                var stations = await ServiceLocator.Current.GetInstance<Service.NetworkService>().GeoSearchStations(currentLocation, distanceInMetersForGetSearch);
+                foreach (var station in stations.Where(s => s.IsValid))
                 {
-                    CurrentStation = station;
+                    CloseStations.Add(station);
+                    if (CurrentStation == null)
+                    {
+                        CurrentStation = station;
+                    }
                 }
+            }
+            catch (Exception)
+            {
+                var resource = ResourceLoader.GetForCurrentView("messages");
+                var dlg = new MessageDialog(resource.GetString("NoStationsAvailable"));
+#pragma warning disable 4014
+                dlg.ShowAsync();
+#pragma warning restore 4014
             }
         }
 

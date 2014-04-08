@@ -43,8 +43,8 @@ namespace Ch.Tallichet.WindMobile.Model
         [DataMember(Name="timezone")]
         public string TimeZoneString { get; set; }
 
-        //[DataMember(Name="last")]
-        //public StationData Last { get; set; }
+        [DataMember(Name="last")]
+        public StationData Last { get; set; }
 
         [DataMember(Name="url")]
         public string Url { get; set; }
@@ -79,6 +79,12 @@ namespace Ch.Tallichet.WindMobile.Model
         [DataMember(Name="_id")]
         public string ID { get; set; }
 
+        [IgnoreDataMember]
+        public DateTime Date
+        {
+            get { return new DateTime(1970, 1, 1) + TimeSpan.FromSeconds(long.Parse(ID)); }
+        }
+
         [DataMember(Name="w-dir")]
         public int WindDirection { get; set; }
 
@@ -86,7 +92,7 @@ namespace Ch.Tallichet.WindMobile.Model
         public double? Temperature { get; set; }
 
         [DataMember(Name = "w-min")]
-        public double?[] WindMin { get; set; }
+        public double? WindMin { get; set; }
         [DataMember(Name = "w-max")]
         public double? WindMax { get; set; }
 
@@ -99,6 +105,11 @@ namespace Ch.Tallichet.WindMobile.Model
 
         [DataMember(Name="hum")]
         public double? Humidity { get; set; }
+        [DataMember(Name = "rain")]
+        public double? Rain { get; set; }
+        [DataMember(Name = "pres")]
+        public double? Pression { get; set; }
+
     }
 
     [DataContract]
