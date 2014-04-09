@@ -8,11 +8,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DataContext="{Binding Source={StaticResource locator}, Path=Main}"
-    d:DesignHeight="300"
+    d:DesignHeight="600"
     d:DesignWidth="400">
     
-    <Grid>
-        <ScrollViewer>
+    <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
+        <ScrollViewer HorizontalScrollMode="Disabled" VerticalScrollMode="Auto">
             <StackPanel>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -38,13 +38,14 @@
                             <TextBlock Text="{Binding CurrentStationLatestData.WindMax}" HorizontalAlignment="Right" Style="{StaticResource TitleTextBlockStyle}" />
                         </Grid>
 
-                        <Grid>
-                            <TextBlock x:Uid="TrendLabel" Text="trend" Style="{StaticResource BodyTextBlockStyle}" HorizontalAlignment="Left" />
-                            <Polygon Points="30,15 0,30 7,15 0,0" Fill="Green" HorizontalAlignment="Right" Margin="0,5">
-                                <Polygon.RenderTransform>
-                                    <RotateTransform CenterX="15" CenterY="15" Angle="{Binding CurrentStationData}" />
-                                </Polygon.RenderTransform>
-                            </Polygon>
+                        <Grid Height="80">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock x:Uid="TrendLabel" Text="trend" Style="{StaticResource BodyTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                            
+                            <ctrl:WindLevelChart ChartPoints="{Binding CurrentStationData}" Grid.Column="1" Height="50" VerticalAlignment="Bottom"/>
                         </Grid>
                     </StackPanel>
 
@@ -81,7 +82,7 @@
                     <TextBlock Text="{Binding CurrentStationLatestData.WindMax}" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" Style="{StaticResource TitleTextBlockStyle}" />
                     <TextBlock Text="km/h" x:Uid="kilometrePerHour" Grid.Row="2" Grid.Column="1" Style="{StaticResource BodyTextBlockStyle}" Margin="5,0,0,0" />
 
-                    <Rectangle Fill="LightGray" Height="1" Grid.Row="3" VerticalAlignment="Top" />
+                    <Rectangle Fill="LightGray" Height="1" Grid.Row="3" VerticalAlignment="Top" Grid.ColumnSpan="2" />
                     <TextBlock Text="air" x:Uid="AirLabel" Grid.Row="3" Grid.Column="0" Style="{StaticResource TitleTextBlockStyle}" />
 
                     <TextBlock Text="temp" x:Uid="TemperatureLabel" Grid.Row="4" Grid.Column="0" Style="{StaticResource BodyTextBlockStyle}" />
