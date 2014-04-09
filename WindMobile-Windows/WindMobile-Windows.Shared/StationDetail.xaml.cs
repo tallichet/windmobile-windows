@@ -21,6 +21,10 @@ namespace Ch.Tallichet.WindMobile
     {
         public StationDetail()
         {
+#if ! WINDOWS_PHONE_APP
+            this.Width = 400;
+#endif
+
             this.InitializeComponent();
         }
     }

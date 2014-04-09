@@ -28,6 +28,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Model\Station.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\LocationService.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Service\NetworkService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)StationDetail.xaml.cs">
+      <DependentUpon>StationDetail.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Viewmodel\Design\DesignMainViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Viewmodel\IMainViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Viewmodel\Runtime\MainViewModel.cs" />
@@ -43,6 +46,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)StationDetail.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

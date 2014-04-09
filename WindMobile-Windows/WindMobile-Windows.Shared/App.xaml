@@ -6,6 +6,12 @@
     xmlns:vm="using:Ch.Tallichet.WindMobile.Viewmodel">
     
     <Application.Resources>
-        <vm:ViewModelLocator x:Name="locator" />
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <vm:ViewModelLocator x:Name="locator" />
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
