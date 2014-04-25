@@ -12,7 +12,18 @@
     d:DesignWidth="400">
     
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
-        <ScrollViewer HorizontalScrollMode="Disabled" VerticalScrollMode="Auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock x:Uid="AltitudLabel" Text="altitud" Style="{StaticResource BodyTextBlockStyle}" HorizontalAlignment="Left" Margin="5" />
+            <TextBlock Text="{Binding CurrentStation.Altitude}" HorizontalAlignment="Right" Style="{StaticResource TitleTextBlockStyle}" Margin="5"  />
+            <TextBlock x:Uid="AltitudUnitLabel" Text="metres" Style="{StaticResource BodyTextBlockStyle}" HorizontalAlignment="Left" Margin="5"  />
+        </StackPanel>
+        <TextBlock Text="{Binding CurrentStationLatestData.Date}" Style="{StaticResource TitleTextBlockStyle}" HorizontalAlignment="Right" />
+
+        <ScrollViewer HorizontalScrollMode="Disabled" VerticalScrollMode="Auto" Grid.Row="1">
             <StackPanel>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -23,19 +34,41 @@
                     <Rectangle Fill="LightGray" Width="1" HorizontalAlignment="Right" />
 
                     <StackPanel HorizontalAlignment="Stretch" Margin="0,0,5,0">
-                        <TextBlock Text="{Binding CurrentStationLatestData.Date}" Style="{StaticResource TitleTextBlockStyle}" HorizontalAlignment="Right" />
                         <Grid>
-                            <TextBlock x:Uid="AltitudLabel" Text="altitud" Style="{StaticResource BodyTextBlockStyle}" HorizontalAlignment="Left" />
-                            <TextBlock Text="{Binding CurrentStation.Altitude}" HorizontalAlignment="Right" Style="{StaticResource TitleTextBlockStyle}" />
-                        </Grid>
-                        <Grid>
-                            <TextBlock x:Uid="WindSpeedLabel" Text="wind" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource BodyTextBlockStyle}" />
-                            <TextBlock Text="{Binding CurrentStationLatestData.WindAverage}" Style="{ThemeResource TitleTextBlockStyle}" HorizontalAlignment="Right"
-                                                       Margin="0,20,0,0"/>
-                        </Grid>
-                        <Grid>
-                            <TextBlock x:Uid="WindSpeedMaxLabel" Text="wind max" Style="{StaticResource BodyTextBlockStyle}" HorizontalAlignment="Left" />
-                            <TextBlock Text="{Binding CurrentStationLatestData.WindMax}" HorizontalAlignment="Right" Style="{StaticResource TitleTextBlockStyle}" />
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock x:Uid="WindSpeedLabel" Text="wind" HorizontalAlignment="Left" VerticalAlignment="Top" Style="{StaticResource TitleTextBlockStyle}" 
+                                       Grid.Row="0" Grid.ColumnSpan="2"/>
+                            
+                            <TextBlock Text="{Binding CurrentStationLatestData.WindAverage}" Style="{ThemeResource BodyTextBlockStyle}" 
+                                       Grid.Row="1" Grid.ColumnSpan="2" HorizontalAlignment="Right" Margin="0,20,0,0"
+                                       FontSize="50"/>
+                            <TextBlock x:Uid="WindUnit" Text="km/h" Style="{ThemeResource BodyTextBlockStyle}" 
+                                       Grid.Row="1" Grid.Column="2" HorizontalAlignment="Right" Margin="20,20,0,0"/>
+                            
+                            <TextBlock x:Uid="WindSpeedMaxLabel" Text="wind max" Style="{StaticResource BodyTextBlockStyle}" HorizontalAlignment="Left" 
+                                       Grid.Row="2" Grid.Column="0" VerticalAlignment="Bottom"/>
+                            <TextBlock Text="{Binding CurrentStationLatestData.WindMax}" HorizontalAlignment="Right" Style="{StaticResource TitleTextBlockStyle}" 
+                                       Grid.Row="2" Grid.Column="1" VerticalAlignment="Bottom"
+                                       FontSize="25" Margin="0,20,0,0"/>
+                            <TextBlock x:Uid="WindUnit" Text="km/h" Style="{ThemeResource BodyTextBlockStyle}" 
+                                       Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20,0,0,0"/>
+
+                            <TextBlock x:Uid="TrendLabel" Text="trend" Style="{StaticResource BodyTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Top"
+                                       Grid.Row="3" Grid.Column="0" Margin="0,20,0,0"/>
+                            
+                            <ctrl:WindLevelChart ChartPoints="{Binding CurrentStationData}" Height="50" VerticalAlignment="Bottom"
+                                                 Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"
+                                                 Margin="0,20,0,0"/>
                         </Grid>
 
                         <Grid Height="80">
@@ -43,9 +76,6 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock x:Uid="TrendLabel" Text="trend" Style="{StaticResource BodyTextBlockStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                            
-                            <ctrl:WindLevelChart ChartPoints="{Binding CurrentStationData}" Grid.Column="1" Height="50" VerticalAlignment="Bottom"/>
                         </Grid>
                     </StackPanel>
 

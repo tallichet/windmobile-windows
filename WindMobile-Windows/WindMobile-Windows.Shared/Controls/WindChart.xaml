@@ -11,12 +11,19 @@
     
     <Grid>
         <Viewbox Stretch="Uniform">
-            <Canvas x:Name="DrawCanvas" Margin="5" Width="200" Height="200">
-                <Path x:Name="LinePath" Stroke="{StaticResource PhoneAccentBrush}" StrokeThickness="3" />
-                <Ellipse Width="200" Height="200" Stroke="{StaticResource PhoneForegroundBrush}"
-                         x:Name="ellipse"/>
+            <Grid>
+                <Canvas x:Name="DrawCanvas" Margin="15" Width="200" Height="200">
+                    <Path x:Name="LinePath" Stroke="{StaticResource PhoneAccentBrush}" StrokeThickness="1" />
+                    <Ellipse Width="200" Height="200" Stroke="{StaticResource PhoneForegroundBrush}"
+                             x:Name="ellipse"/>
 
-            </Canvas>
+                </Canvas>
+                
+                <TextBlock x:Uid="NorthLabel" Text="N" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                <TextBlock x:Uid="SouththLabel" Text="S" HorizontalAlignment="Center" VerticalAlignment="Bottom" />
+                <TextBlock x:Uid="WestLabel" Text="W" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="3" />
+                <TextBlock x:Uid="EastLabel" Text="E" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="3" />
+            </Grid>
         </Viewbox>
     </Grid>
 </UserControl>

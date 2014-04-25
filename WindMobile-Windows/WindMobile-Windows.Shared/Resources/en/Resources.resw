@@ -159,4 +159,7 @@
   <data name="AltitudeUnit.Text" xml:space="preserve">
     <value>m.</value>
   </data>
+  <data name="WindUnit.Text" xml:space="preserve">
+    <value>km/h</value>
+  </data>
 </root>

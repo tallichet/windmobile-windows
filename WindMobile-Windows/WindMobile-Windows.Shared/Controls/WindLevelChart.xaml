@@ -11,7 +11,7 @@
     d:DesignWidth="400">
     
     <Grid>
-        <Border BorderThickness="1" BorderBrush="LightGray">
+        <Border BorderThickness="0" BorderBrush="LightGray">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="30" />
@@ -22,7 +22,7 @@
                 <TextBlock Text="{Binding ElementName=root, Path=WindMaxLabel}" VerticalAlignment="Top" HorizontalAlignment="Right" />
                     
                 <Canvas x:Name="DrawCanvas" Grid.Column="1" >
-                    <Path x:Name="LinePath" Stroke="{StaticResource PhoneAccentBrush}" StrokeThickness="3" />
+                    <Path x:Name="LinePath" Stroke="{StaticResource PhoneAccentBrush}" StrokeThickness="1" />
                 </Canvas>
             </Grid>
         </Border>
